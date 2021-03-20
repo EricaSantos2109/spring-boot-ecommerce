@@ -1,13 +1,102 @@
 package br.gov.sp.fatec.ecommerce;
 
 import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+import java.util.HashSet;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
+import org.springframework.transaction.annotation.Transactional;
+
+import br.gov.sp.fatec.ecommerce.entity.Autorizacao;
+import br.gov.sp.fatec.ecommerce.entity.Cliente;
+import br.gov.sp.fatec.ecommerce.repository.AutorizacaoRepository;
+import br.gov.sp.fatec.ecommerce.repository.ClienteRepository;
 
 @SpringBootTest
+@Transactional //cada metodo da classe abre uma transação nova e abre uma conexão
+@Rollback //terminou o metodo ele não da commit
 class EcommerceApplicationTests {
+
+    @Autowired //sprint identifica que precisa encontrar algo do tipo ClienteRepository
+    private ClienteRepository clienteRepo;
+
+    @Autowired //sprint identifica que precisa encontrar algo do tipo AutoruzacaoRepository
+    private AutorizacaoRepository autRepo;
 
 	@Test
 	void contextLoads() {
-	}
+    }
+
+    @Test
+    void testaInsercao(){
+        Cliente cliente = new Cliente();
+        cliente.setNome("Erica");
+        cliente.setEmail("erica@fatec.com.br");
+        cliente.setSenha("12345678");
+        cliente.setAutorizacoes(new HashSet<Autorizacao>());
+        Autorizacao aut = new Autorizacao();        
+        aut.setNome("ROLE_USER1");
+        autRepo.save(aut);
+        cliente.getAutorizacoes().add(aut);
+        clienteRepo.save(cliente);
+        assertNotNull(cliente.getAutorizacoes().iterator().next().getId());
+    }
+
+    @Test
+    void testaInsercaoAutorizacao(){
+        Cliente cliente = new Cliente();
+        cliente.setNome("Rosa");
+        cliente.setEmail("ericarosa@fatec.com.br");
+        cliente.setSenha("12345678");
+        clienteRepo.save(cliente);        
+        Autorizacao aut = new Autorizacao();        
+        aut.setNome("ROLE_USER2");
+        aut.setClientes(new HashSet<Cliente>());
+        aut.getClientes().add(cliente);
+        autRepo.save(aut);      
+        assertNotNull(aut.getClientes().iterator().next().getId());
+    }
+
+    @Test
+    void testaAutorizacao(){
+        Cliente cliente = clienteRepo.findById(1L).get();
+        assertEquals("ROLE_ADMIN", cliente.getAutorizacoes().iterator().next().getNome());
+       
+    }
+
+    @Test
+    void testaUsuario(){
+        Autorizacao aut = autRepo.findById(1L).get();
+        assertEquals("Eduardo", aut.getClientes().iterator().next().getNome());
+       
+    }
+
+    @Test
+    void testaBuscaClienteNomeContains(){
+        List<Cliente> clientes = clienteRepo.findByNomeContainsIgnoreCase("A");
+        assertFalse(clientes.isEmpty());       
+    }
+
+    @Test
+    void testaBuscaClienteNome(){
+        Cliente cliente = clienteRepo.findByNome("Eduardo");
+        assertNotNull(cliente);       
+    }
+
+    @Test
+    void testaBuscaClienteNomeSenha(){
+        Cliente cliente = clienteRepo.findByNomeAndSenha("Eduardo", "12345678");
+        assertNotNull(cliente);       
+    }
+
+    @Test
+    void testaBuscaClienteNomeAutorizacao(){
+        List<Cliente> clientes = clienteRepo.findByAutorizacoesNome("ROLE_ADMIN");
+        assertFalse(clientes.isEmpty());       
+    }
 
 }
