@@ -15,17 +15,21 @@ import br.gov.sp.fatec.ecommerce.entity.Autorizacao;
 import br.gov.sp.fatec.ecommerce.entity.Cliente;
 import br.gov.sp.fatec.ecommerce.repository.AutorizacaoRepository;
 import br.gov.sp.fatec.ecommerce.repository.ClienteRepository;
+import br.gov.sp.fatec.ecommerce.service.SegurancaService;
 
 @SpringBootTest
 @Transactional //cada metodo da classe abre uma transação nova e abre uma conexão
 @Rollback //terminou o metodo ele não da commit
 class EcommerceApplicationTests {
 
-    @Autowired //sprint identifica que precisa encontrar algo do tipo ClienteRepository
+    @Autowired //sprint identiciar que precisa encontrar algo do tipo ClienteRepository
     private ClienteRepository clienteRepo;
 
-    @Autowired //sprint identifica que precisa encontrar algo do tipo AutoruzacaoRepository
+    @Autowired //sprint identiciar que precisa encontrar algo do tipo ClienteRepository
     private AutorizacaoRepository autRepo;
+
+    @Autowired
+    private SegurancaService segService;
 
 	@Test
 	void contextLoads() {
@@ -36,7 +40,7 @@ class EcommerceApplicationTests {
         Cliente cliente = new Cliente();
         cliente.setNome("Erica");
         cliente.setEmail("erica@fatec.com.br");
-        cliente.setSenha("12345678");
+        cliente.setSenha("senha12345");
         cliente.setAutorizacoes(new HashSet<Autorizacao>());
         Autorizacao aut = new Autorizacao();        
         aut.setNome("ROLE_USER1");
@@ -77,7 +81,7 @@ class EcommerceApplicationTests {
 
     @Test
     void testaBuscaClienteNomeContains(){
-        List<Cliente> clientes = clienteRepo.findByNomeContainsIgnoreCase("A");
+        List<Cliente> clientes = clienteRepo.findByNomeContainsIgnoreCase("R");
         assertFalse(clientes.isEmpty());       
     }
 
@@ -88,8 +92,20 @@ class EcommerceApplicationTests {
     }
 
     @Test
+    void testaBuscaClienteNomeQuery(){
+        Cliente cliente = clienteRepo.buscaClientePorNome("Eduardo");
+        assertNotNull(cliente);       
+    }
+
+    @Test
     void testaBuscaClienteNomeSenha(){
         Cliente cliente = clienteRepo.findByNomeAndSenha("Eduardo", "12345678");
+        assertNotNull(cliente);       
+    }
+
+    @Test
+    void testaBuscaClienteNomeSenhaQuery(){
+        Cliente cliente = clienteRepo.buscaUsuarioPorNomeESenha("Eduardo", "12345678");
         assertNotNull(cliente);       
     }
 
@@ -97,6 +113,18 @@ class EcommerceApplicationTests {
     void testaBuscaClienteNomeAutorizacao(){
         List<Cliente> clientes = clienteRepo.findByAutorizacoesNome("ROLE_ADMIN");
         assertFalse(clientes.isEmpty());       
+    }
+
+    @Test
+    void testaBuscaClienteNomeAutorizacaoQuery(){
+        List<Cliente> clientes = clienteRepo.buscaPorNomeAutorizacao("ROLE_ADMIN");
+        assertFalse(clientes.isEmpty());       
+    }
+
+    @Test
+    void testaServicoCriaUsuario(){
+        Cliente cliente = segService.criarCliente("Normal", "normal@normal.com.br", "senha12345", "ROLE_USER");
+        assertNotNull(cliente);
     }
 
 }
