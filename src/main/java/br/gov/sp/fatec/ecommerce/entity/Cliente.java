@@ -14,7 +14,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "cliente")
+@Table(name = "cli_cliente")
 public class Cliente {
 
     //gera o id da tabela cliente
