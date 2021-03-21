@@ -1,14 +1,18 @@
 package br.gov.sp.fatec.ecommerce.entity;
 
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "pedido")
+@Table(name = "ped_pedido")
 public class Pedido {
     
     //cria o id da tabela pedido chave unica
@@ -17,13 +21,16 @@ public class Pedido {
     @Column(name = "ped_id")
     private Long id;
 
+    //cria a coluna nome do pedido
+    @Column(name = "ped_nome")
+    private String nome;
+
     //cria a coluna valor do pedido
     @Column(name = "ped_valor")
-    private Float valor;
+    private Integer valor;
 
-    //cria o id do cliente no pedido
-    @Column(name = "cli_id")
-    private Long clienteId;
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "pedidos")
+    private Set<Cliente> clientes;
 
     public Long getId(){
         return this.id;
@@ -33,20 +40,29 @@ public class Pedido {
         this.id = id;
     }
 
-    public Float getValor(){
+    
+    public String getNome() {
+        return this.nome;
+    }
+
+    public void setNome (String nome) {
+        this.nome = nome;
+    }   
+
+    public Integer getValor(){
         return this.valor;
     }
 
-    public void setValor(Float valor){
+    public void setValor(Integer valor){
         this.valor = valor;
     }
 
-    public Long getClienteId(){
-        return this.clienteId;
+   public Set<Cliente> getClientes() {
+        return this.clientes;
     }
 
-    public void setClienteId(Long clienteId){
-        this.clienteId = clienteId;
-    }
+    public void setClientes (Set<Cliente> clientes) {
+        this.clientes = clientes;
+    }  
     
 }
