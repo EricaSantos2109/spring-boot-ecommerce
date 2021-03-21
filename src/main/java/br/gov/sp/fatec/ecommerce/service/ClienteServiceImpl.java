@@ -39,7 +39,7 @@ public class ClienteServiceImpl implements ClienteService {
         cli.setNome(nome);
         cli.setEmail(email);
         cli.setIdade(idade);
-        cli.setPedidos(new HashSet<Pedido>());
+        cli.setPedidos(new HashSet<Pedido>()); //pegando a lista de pedidos do cliente e atribuindo o pedido
         cli.getPedidos().add(ped);
         cliRepo.save(cli);
         return cli;

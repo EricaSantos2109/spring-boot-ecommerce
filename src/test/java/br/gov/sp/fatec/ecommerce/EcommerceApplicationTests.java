@@ -18,14 +18,14 @@ import br.gov.sp.fatec.ecommerce.repository.ClienteRepository;
 import br.gov.sp.fatec.ecommerce.service.ClienteService;
 
 @SpringBootTest
-@Transactional //cada metodo da classe abre uma transação nova e abre uma conexão
-@Rollback //terminou o metodo ele não da commit
+@Transactional //cada metodo da classe abre uma transação nova e abre uma conexão, com transactional comentado ele insere
+@Rollback //terminou o metodo ele não da commit, com rollback comentado ele nao insere
 class EcommerceApplicationTests {
 
-    @Autowired //sprint identiciar que precisa encontrar algo do tipo ClienteRepository
+    @Autowired //sprint identifica que precisa encontrar algo do tipo ClienteRepository
     private ClienteRepository cliRepo;
 
-    @Autowired //sprint identiciar que precisa encontrar algo do tipo ClienteRepository
+    @Autowired //sprint identifica que precisa encontrar algo do tipo PedidoRepository
     private PedidoRepository pedRepo;
 
     @Autowired
@@ -38,12 +38,12 @@ class EcommerceApplicationTests {
 @Test
     void testaInsercao() {
         Cliente cli = new Cliente();
-        cli.setNome("Erica3");
-        cli.setEmail("erica3@erica.com");
+        cli.setNome("EricaRosa");
+        cli.setEmail("ericarosa@erica.com");
         cli.setIdade(20);
         cli.setPedidos(new HashSet<Pedido>());
         Pedido ped = new Pedido();
-        ped.setNome("pedido03");
+        ped.setNome("pedido09");
         ped.setValor(200);
         pedRepo.save(ped);
         cli.getPedidos().add(ped);
@@ -91,7 +91,7 @@ class EcommerceApplicationTests {
 
     @Test
     void testaServicoCriaCliente(){
-        Cliente cli = cliService.criarCliente("Erica4", "erica4@email.com", 37, "pedido04", 400);
+        Cliente cli = cliService.criarCliente("EricaMoreira", "ericamoreira@email.com", 21, "pedido10", 400);
         assertNotNull(cli);
     }    
 

@@ -11,10 +11,10 @@ import br.gov.sp.fatec.ecommerce.entity.Cliente;
 public interface ClienteRepository extends JpaRepository<Cliente, Long>{
 
     //inicio da query method
-
+    //=?1 coluna 1
     @Query("select c from Cliente c where c.nome =?1")
     public Cliente buscaClientePorNome(String nome);
-
+    //=?2 coluna 2
     @Query("select c from Cliente c where c.nome =?1 and c.email = ?2")
     public Cliente buscaClientePorNomeEmail(String nome, String email);
 
