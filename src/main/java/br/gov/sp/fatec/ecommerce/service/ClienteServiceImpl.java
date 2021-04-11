@@ -44,5 +44,52 @@ public class ClienteServiceImpl implements ClienteService {
         cliRepo.save(cli);
         return cli;
     }
+
+    @Transactional
+    public Cliente novoCliente(String nome, String email, Integer idade) {
+        
+        Cliente cli = new Cliente();
+        cli.setNome(nome);
+        cli.setEmail(email);
+        cli.setIdade(idade);
+        cliRepo.save(cli);
+        return cli;
+    }
+
+    public List<Cliente> buscarClientes(){
+        return cliRepo.findAll();
+    }
+
+    @Override
+    public Cliente buscarClientePorId(Long id){
+        Optional<Cliente> clienteOp = clienteRepo.findById(id);
+        if(clienteOp.isPresent()) {
+            return clienteOp.get();
+        }
+        throw new RegistroNaoEncontradoException("Cliente não encontrado!");
+    }
+
+    @Override
+    public Cliente buscarClientePorNome(String nome){
+        Cliente cliente = clienteRepo.findByNome(nome);
+        if(cliente != null) {
+            return cliente;
+        }
+        throw new RegistroNaoEncontradoException("Cliente não encontrado!");
+    }
+
+    public Cliente atualizarCliente(String nome, String email, Integer idade, Long id){
+        Cliente cliente = clienteRepo.buscarClientePorId(id);
+        if(cliente != null){
+            cliente.setNome(nome);
+            cliente.setEmail(email);
+            cliente.setIdade(idade);
+            clienteRepo.save(cliente);
+
+            return cliente;
+        }
+
+        throw new RegistroNaoEncontradoException("Cliente não encontrado!");
+    }
     
 }

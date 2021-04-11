@@ -10,7 +10,6 @@ import br.gov.sp.fatec.ecommerce.entity.Cliente;
 //<Cliente, Long> indica a entidade e o tipo da chave primária
 public interface ClienteRepository extends JpaRepository<Cliente, Long>{
 
-    //inicio da query method
     //=?1 coluna 1
     @Query("select c from Cliente c where c.nome =?1")
     public Cliente buscaClientePorNome(String nome);
@@ -20,4 +19,10 @@ public interface ClienteRepository extends JpaRepository<Cliente, Long>{
 
     @Query("select c from Cliente c inner join c.pedidos p where p.nome = ?1")
     public List<Cliente> buscaClientePorNomePedido(String pedido);
+
+    @Query("select c from  Cliente c where c.id = ?1 ")
+    public Cliente findById(Long id);
+
+    public Cliente findByNome(String nome);
+
 }
