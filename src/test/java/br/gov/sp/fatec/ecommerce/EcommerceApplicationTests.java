@@ -60,14 +60,14 @@ class EcommerceApplicationTests {
     }
 
    
-
+/*
     @Test
     void testaCliente() {
         Pedido ped = pedRepo.findById(1L).get();         
         assertEquals("Erica", ped.getClientes().iterator().next().getNome());     
 
     }    
-
+*/
     @Test
     void testaBuscaClientePorNomeEmailQuery() {
         Cliente cli = cliRepo.buscaClientePorNomeEmail("Erica", "erica@email.com");

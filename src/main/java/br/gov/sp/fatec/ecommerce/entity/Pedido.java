@@ -26,16 +26,18 @@ public class Pedido {
     private Long id;
 
     //cria a coluna nome do pedido
+    @JsonView(View.ClienteResumo.class) 
     @Column(name = "ped_nome")
     private String nome;
 
     //cria a coluna valor do pedido
+    @JsonView(View.ClienteResumo.class) 
     @Column(name = "ped_valor")
     private Integer valor;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "cli_id")
-    private Set<Cliente> clientes;
+    private Cliente cliente;
 
     public Long getId(){
         return this.id;
@@ -62,12 +64,12 @@ public class Pedido {
         this.valor = valor;
     }
 
-   public Set<Cliente> getClientes() {
-        return this.clientes;
+   public Cliente getClientes() {
+        return this.cliente;
     }
 
-    public void setClientes (Set<Cliente> clientes) {
-        this.clientes = clientes;
+    public void setClientes (Cliente cliente) {
+        this.cliente = cliente;
     }  
     
 }

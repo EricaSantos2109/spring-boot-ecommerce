@@ -28,15 +28,19 @@ public class Cliente {
     //gera o id da tabela cliente
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonView(View.ClienteCompleto.class) 
     @Column(name = "cli_id")
     private Long id;
 
+    @JsonView(View.ClienteResumo.class) 
     @Column(name = "cli_nome")
     private String nome;
 
+    @JsonView(View.ClienteResumo.class) 
     @Column(name = "cli_email")
     private String email;
 
+    @JsonView(View.ClienteResumo.class) 
     @Column(name = "cli_idade")
     private Integer idade;
 
