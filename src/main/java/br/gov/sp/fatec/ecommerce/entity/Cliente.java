@@ -32,11 +32,11 @@ public class Cliente {
     @Column(name = "cli_id")
     private Long id;
 
-    @JsonView(View.ClienteResumo.class) 
+    @JsonView({View.ClienteResumo.class, View.PedidoLista.class}) 
     @Column(name = "cli_nome")
     private String nome;
 
-    @JsonView(View.ClienteResumo.class) 
+    @JsonView({View.ClienteResumo.class, View.PedidoLista.class}) 
     @Column(name = "cli_email")
     private String email;
 

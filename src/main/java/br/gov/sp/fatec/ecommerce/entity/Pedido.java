@@ -20,21 +20,23 @@ import br.gov.sp.fatec.ecommerce.controller.View;
 public class Pedido {
     
     //cria o id da tabela pedido chave unica
+    @JsonView(View.PedidoLista.class)
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ped_id")
     private Long id;
 
     //cria a coluna nome do pedido
-    @JsonView(View.ClienteResumo.class) 
+    @JsonView({View.ClienteResumo.class, View.PedidoLista.class}) 
     @Column(name = "ped_nome")
     private String nome;
 
     //cria a coluna valor do pedido
-    @JsonView(View.ClienteResumo.class) 
+    @JsonView({View.ClienteResumo.class, View.PedidoLista.class}) 
     @Column(name = "ped_valor")
     private Integer valor;
 
+    @JsonView(View.PedidoLista.class)
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "cli_id")
     private Cliente cliente;

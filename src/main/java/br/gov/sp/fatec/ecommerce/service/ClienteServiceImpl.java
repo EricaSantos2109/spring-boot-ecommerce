@@ -26,6 +26,8 @@ public class ClienteServiceImpl implements ClienteService {
     @Autowired
     private ClienteRepository cliRepo;
 
+    //cliente
+
     //tudo o que ocorre é uma transação
     @Transactional
     public Cliente criarCliente(String nome, String email, Integer idade, String pedido, Integer valor) {
@@ -95,4 +97,63 @@ public class ClienteServiceImpl implements ClienteService {
         throw new RegistroNaoEncontradoException("Cliente não encontrado!");
     }
     
+    //pedido
+
+    @Transactional
+    public Pedido criarPedido(String nome, Integer valor, Long id){
+        Cliente cliente = cliRepo.buscarClientePorId(id);
+        Pedido pedido = new Pedido();
+        if(cliente != null){
+            
+            pedido.setNome(nome);
+            pedido.setValor(valor);
+            cliente.setPedidos(new HashSet<Pedido>());
+            cliente.getPedidos().add(pedido);
+            pedido.setClientes(cliente);
+            pedRepo.save(pedido);
+            cliRepo.save(cliente);   
+            return pedido;      
+
+        }               
+        throw new RegistroNaoEncontradoException("Cliente não encontrado!");     
+        
+    }
+
+    @Override
+    public List<Pedido> buscarPedidos(){
+        return pedRepo.findAll();
+    }
+
+    @Override
+    public Pedido buscaPedidoPorNome(String nome){
+        Pedido pedido = pedRepo.findByNome(nome);
+        if(pedido != null){
+            return pedido;
+        }
+        throw new RegistroNaoEncontradoException("Pedido não encontrado");
+    }
+
+    @Override
+    public Pedido buscarPedidoPorId(Long id){
+        Pedido pedido = pedRepo.buscarPedidoPorId(id);
+        if(pedido != null) {
+            return pedido;           
+        }
+        throw new RegistroNaoEncontradoException("Pedido não encontrado!");
+
+    }   
+    public Pedido atualizarValorPedido(Integer valor, Long id){
+
+        Pedido pedido = pedRepo.buscarPedidoPorId(id);
+
+        if (pedido != null) {
+            pedido.setValor(valor);
+            pedRepo.save(pedido);
+            return pedido;            
+        }
+
+        throw new RegistroNaoEncontradoException("Pedido não encontrado!");
+
+    } 
+
 }
