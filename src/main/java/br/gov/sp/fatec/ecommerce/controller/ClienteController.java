@@ -57,7 +57,7 @@ public class ClienteController {
         return clienteService.buscarClientePorNome(nome);
     }
 
-    @PostMapping
+    @PostMapping("/")
     public ResponseEntity<Cliente> cadastrarNovoCliente(@RequestBody Cliente cliente,
         UriComponentsBuilder uriComponentsBuilder){
             cliente = clienteService.novoCliente(cliente.getNome(), cliente.getEmail(), cliente.getIdade());
