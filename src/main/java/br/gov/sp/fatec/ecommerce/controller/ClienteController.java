@@ -31,7 +31,7 @@ import br.gov.sp.fatec.ecommerce.service.ClienteService;
 //permite acesso externo de qualquer lugar se não colocar as origens. 
 @RequestMapping(value = "/cliente")
 @CrossOrigin(origins = "*", allowedHeaders = "*") //tratamento de cors
-public class ClienteControlller {
+public class ClienteController {
     
     @Autowired
     private ClienteService clienteService;

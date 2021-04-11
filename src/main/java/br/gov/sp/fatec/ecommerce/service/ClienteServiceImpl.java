@@ -1,16 +1,19 @@
 package br.gov.sp.fatec.ecommerce.service;
 
 import java.util.HashSet;
-
+import br.gov.sp.fatec.ecommerce.controller.View;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import br.gov.sp.fatec.ecommerce.exception.RegistroNaoEncontradoException;
 
 import br.gov.sp.fatec.ecommerce.entity.Cliente;
 import br.gov.sp.fatec.ecommerce.entity.Pedido;
 import br.gov.sp.fatec.ecommerce.repository.PedidoRepository;
 import br.gov.sp.fatec.ecommerce.repository.ClienteRepository;
+import java.util.List;
+import java.util.Optional;
 
 //como o component => onde vai ter a regra de negócio
 @Service("ClienteService")
@@ -62,16 +65,16 @@ public class ClienteServiceImpl implements ClienteService {
 
     @Override
     public Cliente buscarClientePorId(Long id){
-        Optional<Cliente> clienteOp = clienteRepo.findById(id);
-        if(clienteOp.isPresent()) {
-            return clienteOp.get();
+        Cliente clienteOp = cliRepo.buscarClientePorId(id);
+        if(clienteOp != null) {
+            return clienteOp;
         }
         throw new RegistroNaoEncontradoException("Cliente não encontrado!");
     }
 
     @Override
     public Cliente buscarClientePorNome(String nome){
-        Cliente cliente = clienteRepo.findByNome(nome);
+        Cliente cliente = cliRepo.findByNome(nome);
         if(cliente != null) {
             return cliente;
         }
@@ -79,12 +82,12 @@ public class ClienteServiceImpl implements ClienteService {
     }
 
     public Cliente atualizarCliente(String nome, String email, Integer idade, Long id){
-        Cliente cliente = clienteRepo.buscarClientePorId(id);
+        Cliente cliente = cliRepo.buscarClientePorId(id);
         if(cliente != null){
             cliente.setNome(nome);
             cliente.setEmail(email);
             cliente.setIdade(idade);
-            clienteRepo.save(cliente);
+            cliRepo.save(cliente);
 
             return cliente;
         }

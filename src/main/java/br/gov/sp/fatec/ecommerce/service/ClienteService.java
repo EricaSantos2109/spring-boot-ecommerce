@@ -1,6 +1,7 @@
 package br.gov.sp.fatec.ecommerce.service;
 
 import br.gov.sp.fatec.ecommerce.entity.Cliente;
+import java.util.List;
 
 public interface ClienteService {
     
@@ -12,5 +13,7 @@ public interface ClienteService {
 
     public Cliente buscarClientePorNome(String nome);
 
-    public Cliente atualizarCliente(String nome, String email, Integer idade);
+    public Cliente atualizarCliente(String nome, String email, Integer idade, Long id);
+
+    public Cliente novoCliente(String nome, String email, Integer idade);
 }

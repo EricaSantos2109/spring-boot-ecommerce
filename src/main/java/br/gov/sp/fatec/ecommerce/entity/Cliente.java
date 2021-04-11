@@ -12,6 +12,14 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import java.util.List;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import java.util.Optional;
+
+import com.fasterxml.jackson.annotation.JsonView;
+
+import br.gov.sp.fatec.ecommerce.controller.View;
 
 @Entity
 @Table(name = "cli_cliente")
@@ -34,11 +42,8 @@ public class Cliente {
 
     //Fetch => EAGER vai fazer o join e preencher // LAZY => Faz select quando precisar usar com o get 
     // faz um join da tabela cliente com pedido
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "tab_cliente_pedido",
-        joinColumns = { @JoinColumn(name= "tab_cli_id")},
-        inverseJoinColumns = { @JoinColumn(name = "tab_ped_id")}
-        )
+    @JsonView(View.ClienteResumo.class) 
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "cliente")
     private Set<Pedido> pedidos;
 
     public Long getId(){

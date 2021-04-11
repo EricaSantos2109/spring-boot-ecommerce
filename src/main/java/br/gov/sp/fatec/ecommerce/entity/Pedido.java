@@ -10,6 +10,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonView;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import br.gov.sp.fatec.ecommerce.controller.View;
 
 @Entity
 @Table(name = "ped_pedido")
@@ -29,7 +33,8 @@ public class Pedido {
     @Column(name = "ped_valor")
     private Integer valor;
 
-    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "pedidos")
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "cli_id")
     private Set<Cliente> clientes;
 
     public Long getId(){
