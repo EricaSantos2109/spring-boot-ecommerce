@@ -1,13 +1,14 @@
 drop user 'user'@'localhost';
-drop schema ecomerce;
 
-create schema ecomerce;
+drop schema ecommerce;
 
-use ecomerce;
+create schema ecommerce;
+
+use ecommerce;
 
 create user 'user'@'localhost' identified by 'pass123';
 
-grant select, insert, delete, update on ecomerce.* to user@'localhost';
+grant select, insert, delete, update on ecommerce.* to user@'localhost';
 
 
 create table cli_cliente (
