@@ -1,12 +1,15 @@
-create schema ecommerce;
+drop user 'user'@'localhost';
+drop schema ecomerce;
 
-use ecommerce;
+create schema ecomerce;
+
+use ecomerce;
 
 create user 'user'@'localhost' identified by 'pass123';
 
-grant select, insert, delete, update on ecommerce.* to user@'localhost';
+grant select, insert, delete, update on ecomerce.* to user@'localhost';
 
--- Cria tabela cliente
+
 create table cli_cliente (
   cli_id bigint unsigned not null auto_increment,
   cli_nome varchar(20) not null,
@@ -18,7 +21,7 @@ create table cli_cliente (
   UNIQUE KEY uni_cli_email (cli_email)  
 );
 
--- Cria tabela Pedido
+
 create table ped_pedido (
   ped_id bigint unsigned not null auto_increment,
   ped_nome varchar(50) not null,
@@ -28,6 +31,7 @@ create table ped_pedido (
   unique key uni_ped_nome (ped_nome),
   foreign key pedcli_cli_fk (cli_id) references cli_cliente (cli_id) on delete restrict on update cascade
 );
+
 
 create table aut_autorizacao (
   aut_id bigint unsigned not null auto_increment,
@@ -44,16 +48,18 @@ create table uau_cliente_autorizacao (
   foreign key aut_autorizacao_fk (aut_id) references aut_autorizacao (aut_id) on delete restrict on update cascade
 );
 
+
 insert into cli_cliente(cli_nome, cli_senha, cli_email, cli_idade)
-    values('Erica', '$2a$10$i3.Z8Yv1Fwl0I5SNjdCGkOTRGQjGvHjh/gMZhdc3e7LIovAklqM6C', 'erica@email.com', 37);
+    values('Ariana', '$2a$10$i3.Z8Yv1Fwl0I5SNjdCGkOTRGQjGvHjh/gMZhdc3e7LIovAklqM6C', 'ariana@email.com', 37);
 insert into cli_cliente(cli_nome, cli_senha, cli_email, cli_idade)
-    values('Erica1','$2a$10$i3.Z8Yv1Fwl0I5SNjdCGkOTRGQjGvHjh/gMZhdc3e7LIovAklqM6C', 'erica1@email.com', 37);
+    values('Ariana1','$2a$10$i3.Z8Yv1Fwl0I5SNjdCGkOTRGQjGvHjh/gMZhdc3e7LIovAklqM6C', 'ariana1@email.com', 37);
 
 
 insert into ped_pedido(ped_nome, ped_valor, cli_id)
     values('pedido01', 200, 1);
 insert into ped_pedido(ped_nome, ped_valor, cli_id)
-    values('pedido02', 200, 2);
+    values('pedido02', 400, 2);
+
 
 insert into aut_autorizacao (aut_nome)
     values ('ROLE_ADMIN');

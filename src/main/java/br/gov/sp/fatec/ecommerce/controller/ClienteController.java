@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import br.gov.sp.fatec.ecommerce.entity.Cliente;
+import br.gov.sp.fatec.ecommerce.entity.Pedido;
 import br.gov.sp.fatec.ecommerce.exception.RegistroNaoEncontradoException;
 import br.gov.sp.fatec.ecommerce.repository.ClienteRepository;
 import br.gov.sp.fatec.ecommerce.service.ClienteService;
@@ -60,7 +61,7 @@ public class ClienteController {
     @PostMapping("/")
     public ResponseEntity<Cliente> cadastrarNovoCliente(@RequestBody Cliente cliente,
         UriComponentsBuilder uriComponentsBuilder){
-            cliente = clienteService.novoCliente(cliente.getNome(), cliente.getEmail(), cliente.getIdade());
+            cliente = clienteService.novoCliente(cliente.getNome(), cliente.getSenha(), cliente.getEmail(), cliente.getIdade());
             HttpHeaders responseHeaders = new HttpHeaders();
             responseHeaders.setLocation(
                 uriComponentsBuilder.path("/cliente/id/" + cliente.getId()).build().toUri());
@@ -82,7 +83,7 @@ public class ClienteController {
     public ResponseEntity<Cliente> atualizarCliente(@PathVariable Long id, @RequestBody Cliente cliente,
             UriComponentsBuilder uriComponentsBuilder) throws Exception {
 
-        cliente = clienteService.atualizarCliente(cliente.getNome(), cliente.getEmail(), cliente.getIdade(), id);
+        cliente = clienteService.atualizarCliente(cliente.getNome(), cliente.getSenha(), cliente.getEmail(), cliente.getIdade(), id);
         HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.setLocation(uriComponentsBuilder.path("/cliente/id/" + cliente.getId()).build().toUri());
 

@@ -12,4 +12,9 @@ public class View {
 
     public static class PedidoLista{}
 
+    public static class PedidoCompleto extends PedidoLista{}
+
+    public static class AutorizacaoResumo{}
+
+    public static class AutorizacaoCompleto extends AutorizacaoResumo{}
 }

@@ -2,11 +2,14 @@ package br.gov.sp.fatec.ecommerce.service;
 
 import br.gov.sp.fatec.ecommerce.entity.Cliente;
 import br.gov.sp.fatec.ecommerce.entity.Pedido;
-import java.util.List;
+import br.gov.sp.fatec.ecommerce.entity.Autorizacao;
 
-public interface ClienteService {
+import java.util.List;
+import org.springframework.security.core.userdetails.UserDetailsService;
+
+public interface ClienteService extends UserDetailsService {
     
-    public Cliente criarCliente(String nome, String email, Integer idade, String pedido, Integer valor);
+    public Cliente criarCliente(String nome, String senha, String email, Integer idade, String autorizacao);
 
     public List<Cliente> buscarClientes();
 
@@ -14,9 +17,9 @@ public interface ClienteService {
 
     public Cliente buscarClientePorNome(String nome);
 
-    public Cliente atualizarCliente(String nome, String email, Integer idade, Long id);
+    public Cliente atualizarCliente(String nome, String senha, String email, Integer idade, Long id);
 
-    public Cliente novoCliente(String nome, String email, Integer idade);
+    public Cliente novoCliente(String nome, String senha, String email, Integer idade);
 
     //pedido
 
@@ -30,5 +33,7 @@ public interface ClienteService {
 
     public Pedido atualizarValorPedido(Integer valor, Long id);
 
+   //AUTORIZAÇÃO
+    public Autorizacao buscarAutorizacaoPorNome(String nome);
 
 }
