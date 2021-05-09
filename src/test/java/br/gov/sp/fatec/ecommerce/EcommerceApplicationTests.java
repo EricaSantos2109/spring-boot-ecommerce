@@ -92,7 +92,7 @@ class EcommerceApplicationTests {
     /*@Test
     void testaServicoCriaCliente(){
         Cliente cli = cliService.criarCliente("EricaMoreira", "ericamoreira@email.com", 21, "pedido10", 400);
-        assertNotNull(cli);*/
-    }    
+        assertNotNull(cli);
+    }*/
 
 }
