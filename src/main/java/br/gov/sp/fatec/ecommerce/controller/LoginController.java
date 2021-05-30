@@ -17,7 +17,7 @@ import br.gov.sp.fatec.ecommerce.security.Login;
 
 @RestController
 @RequestMapping(value = "/login")
-@CrossOrigin
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class LoginController {
 
   @Autowired
