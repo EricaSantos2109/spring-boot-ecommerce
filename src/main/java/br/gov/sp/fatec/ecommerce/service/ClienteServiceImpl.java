@@ -206,4 +206,10 @@ public class ClienteServiceImpl implements ClienteService {
         .build();
   } 
 
+    @Override
+    public String buscarAutorizacaoUsuario(String autorizacao) {
+        Cliente cliente = cliRepo.findByNome(autorizacao);
+        return cliente.getAutorizacoes().iterator().next().getNome();
+    }
+
 }

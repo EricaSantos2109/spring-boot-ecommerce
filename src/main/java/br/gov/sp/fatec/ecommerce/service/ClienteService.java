@@ -36,4 +36,6 @@ public interface ClienteService extends UserDetailsService {
    //AUTORIZAÇÃO
     public Autorizacao buscarAutorizacaoPorNome(String nome);
 
+    public String buscarAutorizacaoUsuario(String autorizacao);
+
 }

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.gov.sp.fatec.ecommerce.security.JwtUtils;
 import br.gov.sp.fatec.ecommerce.security.Login;
+import br.gov.sp.fatec.ecommerce.service.ClienteService;
 
 @RestController
 @RequestMapping(value = "/login")
@@ -23,11 +24,16 @@ public class LoginController {
   @Autowired
   private AuthenticationManager authManager;
 
+  @Autowired
+  private ClienteService clienteService;
+
   @PostMapping()
   public Login autenticar(@RequestBody Login login) throws JsonProcessingException {
     Authentication auth = new UsernamePasswordAuthenticationToken(login.getUsername(), login.getPassword());
+    String aut = clienteService.buscarAutorizacaoUsuario(login.getUsername());
     auth = authManager.authenticate(auth);
     login.setPassword(null);
+    login.setAutorizacao(aut);
     login.setToken(JwtUtils.generateToken(auth));
     return login;
   }
