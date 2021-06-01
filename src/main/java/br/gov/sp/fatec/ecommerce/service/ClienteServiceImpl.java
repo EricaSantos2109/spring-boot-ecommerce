@@ -141,7 +141,7 @@ public class ClienteServiceImpl implements ClienteService {
     }
 
     @Override
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("hasRole('ADMIN')")
     public List<Pedido> buscarPedidos(){
         return pedRepo.findAll();
     }
